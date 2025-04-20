@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Future Marriage Agreement</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 2rem;
+      color: #222;
+    }
+    .contract-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+    }
+    h1, h2 {
+      text-align: center;
+      text-decoration: underline;
+    }
+    p {
+      line-height: 1.8;
+    }
+    .signature-line {
+      margin-top: 3rem;
+    }
+    .signature-field {
+      margin-bottom: 2rem;
+    }
+    .signature-field label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .signature-display {
+      font-style: italic;
+      font-family: cursive;
+      font-size: 1.3rem;
+      padding: 0.5rem;
+      border-bottom: 1px solid #aaa;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      background-color: #222;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #777;
+      cursor: not-allowed;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-style: italic;
+      text-align: center;
+      color: #666;
+    }
+    #download-btn {
+      display: block;
+      margin: 2rem auto 0;
+      text-align: center;
+    }
+    input.invisible-text {
+      color: transparent;
+      text-shadow: 0 0 0 #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="contract-container" id="contract">
+    <h1>Future Marriage Agreement</h1>
+    <p>
+      I, <strong>Rafid</strong>, hereby declare that if I am blessed with a daughter, I will give her in marriage as a sadaqah to <strong>Shams</strong>. He will marry her regardless of her beauty, character, or any shortcomings, except if she ceases to be a Muslim. This declaration is made sincerely, acknowledging the seriousness of promises and their weight in the sight of Allah.
+    </p>
+
+    <h2>Terms & Conditions</h2>
+    <ol>
+      <li>The Groom expresses his noble intention to propose marriage to the daughter of The Father once she reaches a suitable age (17–19 years).</li>
+      <li>The Father acknowledges the Groom’s honorable character, Islamic values, and promising future.</li>
+      <li>The Groom shall treat The Father to a feast upon signing of this agreement. (No biryani)</li>
+      <li>The price of Mahr will be granted by Shams as per his noble character, and once decided, it cannot be renegotiated.</li>
+      <li>Any disputes arising will be settled by an Exploding Kittens match under fair Islamic conduct.</li>
+    </ol>
+
+    <div class="signature-line" id="signature-line">
+      <div class="signature-field">
+        <label for="groom-sign">The Groom (Shams):</label>
+        <input type="text" id="groom-sign" placeholder="Type your full name to sign" />
+      </div>
+      <div class="signature-field">
+        <label for="father-sign">The Father (Rafid):</label>
+        <input type="text" id="father-sign" placeholder="Type your full name to sign" />
+      </div>
+      <div class="signature-field">
+        <label for="witness1">Witness 1:</label>
+        <input type="text" id="witness1" class="invisible-text" oninput="this.value='GOAT'" />
+      </div>
+      <div class="signature-field">
+        <label for="witness2">Witness 2:</label>
+        <input type="text" id="witness2" class="invisible-text" oninput="this.value='Gabu'" />
+      </div>
+      <div class="signature-field">
+        <label for="witness3">Witness 3:</label>
+        <input type="text" id="witness3" placeholder="Type full name to sign" />
+      </div>
+      <button onclick="lockSignatures()" id="sign-btn">Sign Contract</button>
+    </div>
+
+    <div class="footer">
+      "And fulfill [every] commitment. Indeed, the commitment is ever [that about which one will be] questioned." <br/>
+      — Surah Al-Isra (17:34)
+    </div>
+  </div>
+
+  <button id="download-btn" onclick="downloadAsImage()">Download as Image</button>
+
+  <script>
+    function lockSignatures() {
+      const ids = ['groom-sign', 'father-sign', 'witness1', 'witness2', 'witness3'];
+      const names = [];
+      let allFilled = true;
+
+      ids.forEach(id => {
+        const input = document.getElementById(id);
+        if (!input.value.trim()) allFilled = false;
+        names.push({ id, value: input.value });
+      });
+
+      if (!allFilled) {
+        alert('All parties including witnesses must sign before locking.');
+        return;
+      }
+
+      const sigContainer = document.getElementById('signature-line');
+      sigContainer.innerHTML = '';
+
+      names.forEach(({ id, value }) => {
+        const label = document.createElement('div');
+        label.className = 'signature-field';
+
+        const role = id === 'groom-sign' ? 'The Groom (Shams)' :
+                     id === 'father-sign' ? 'The Father (Rafid)' :
+                     id === 'witness1' ? 'Witness 1' :
+                     id === 'witness2' ? 'Witness 2' :
+                     'Witness 3';
+
+        label.innerHTML = `<label>${role}:</label><div class='signature-display'>${value}</div>`;
+        sigContainer.appendChild(label);
+      });
+
+      document.getElementById('sign-btn')?.remove();
+    }
+
+    function downloadAsImage() {
+      const node = document.getElementById('contract');
+      html2canvas(node).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Future_Marriage_Contract.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
